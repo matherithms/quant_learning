@@ -6,3 +6,5 @@ __pycache__/
 .venv/
 venv/
 
+# 本地行情数据
+data/*.csv
