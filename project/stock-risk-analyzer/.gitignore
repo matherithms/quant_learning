@@ -6,5 +6,3 @@ __pycache__/
 .venv/
 venv/
 
-# 本地行情数据
-project/stock-risk-analyzer/data/*.csv
