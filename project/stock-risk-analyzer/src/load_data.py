@@ -94,7 +94,7 @@ def load_prices(path):
     df = pd.read_csv(path)
 
     required_columns = {"date", "asset", "close"}
-    if not requierd_columns.issubset(df.columns):
+    if not required_columns.issubset(df.columns):
         raise ValueError(f"数据必须包含以下列：{required_columns}")
 
     if df[["date", "asset", "close"]].isna().any().any():
@@ -104,5 +104,23 @@ def load_prices(path):
     df["asset"] = df["asset"].astype(str).str.strip()
     df["close"] = pd.to_numeric(df["close"], errors="raise" )
 
-    
+    if df["asset"].eq("").any():
+        raise ValueError("发现空股票代码")
+
+    if not np.isfinite(df["close"]).all():
+        raise ValueError("发现非有限价格")
+
+    if (df["close"] <= 0).any():
+        raise ValueError("发现非正价格")
+
+    duplicate_mark = df.duplicated(subset=["date", "asset"], keep=False)
+    if duplicate_mark.any():
+        raise ValueError("发现重复的日期—股票记录")
+
+
+    df = df.sort_values(["asset", "date"])
+    df = df.reset_index(drop=True)
+
+    return df
+
 
