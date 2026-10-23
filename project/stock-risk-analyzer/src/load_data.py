@@ -1,5 +1,5 @@
 
-from pathlib import Path
+'''from pathlib import Path
 
 import numpy as np
 import pandas as pd
@@ -47,6 +47,7 @@ def load_prices(path):
 
     df["asset"] = df["asset"].astype(str).str.strip()
 
+
     df["close"] = pd.to_numeric(
         df["close"], errors="raise"
     )
@@ -79,4 +80,29 @@ def load_prices(path):
     # 9. 重建行索引
     df = df.reset_index(drop=True)
 
-    return df
+    return df'''
+
+import pandas as pd
+import numpy as np
+from pathlib import Path
+
+def load_prices(path):
+    
+    path = Path(path)
+    if not path.is_file():
+        raise FileNotFoundError(f"找不到数据文件：{path}")
+    df = pd.read_csv(path)
+
+    required_columns = {"date", "asset", "close"}
+    if not requierd_columns.issubset(df.columns):
+        raise ValueError(f"数据必须包含以下列：{required_columns}")
+
+    if df[["date", "asset", "close"]].isna().any().any():
+        raise ValueError("行情数据中存在缺失值")
+
+    df["date"] = pd.to_datetime(df["date"], errors="raise")
+    df["asset"] = df["asset"].astype(str).str.strip()
+    df["close"] = pd.to_numeric(df["close"], errors="raise" )
+
+    
+
