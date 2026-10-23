@@ -1,4 +1,4 @@
-from src.data_processing import load_prices
+from src.load_data import load_prices
 
 df = load_prices("data/prices.csv")
 
