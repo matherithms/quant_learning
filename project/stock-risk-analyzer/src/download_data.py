@@ -15,7 +15,7 @@ TICKERS = [
 ]
 
 START_DATE = "20240101"
-END_DATE = "20261019"
+END_DATE = "20261106"
 
 # __file__ 指向 src/download_data.py
 # parent.parent 指向 stock-risk-analyzer 项目根目录
